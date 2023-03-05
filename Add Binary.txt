@@ -1,0 +1,38 @@
+Given two binary strings a and b, return their sum as a binary string.
+
+ 
+
+Example 1:
+
+Input: a = "11", b = "1"
+Output: "100"
+Example 2:
+
+Input: a = "1010", b = "1011"
+Output: "10101"
+
+
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string result = "";
+        int carry = 0, i = a.length() - 1, j = b.length() - 1;
+
+        while (i >= 0 || j >= 0 || carry != 0) {
+            int sum = carry;
+            if (i >= 0) sum += a[i--] - '0';
+            if (j >= 0) sum += b[j--] - '0';
+            result = to_string(sum % 2) + result;
+            carry = sum / 2;
+        }
+
+        return result;
+    }
+};
+
+
+In this solution, we first initialize an empty string result to store the binary sum of a and b. We also initialize a carry value of 0 and two pointers i and j to the end of strings a and b respectively.
+
+We then iterate over both a and b in reverse order, adding the corresponding bits and the carry value. We calculate the sum by adding the carry, the digit at index i in a (if it exists), and the digit at index j in b (if it exists). We then update the carry value and append the remainder of sum divided by 2 (which will be either 0 or 1) to the beginning of result.
+
+After the iteration is complete, we return the final binary sum in result.
