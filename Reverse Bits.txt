@@ -1,0 +1,39 @@
+Reverse bits of a given 32 bits unsigned integer.
+
+Note:
+
+Note that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.
+In Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 2 above, the input represents the signed integer -3 and the output represents the signed integer -1073741825.
+ 
+
+Example 1:
+
+Input: n = 00000010100101000001111010011100
+Output:    964176192 (00111001011110000010100101000000)
+Explanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, so return 964176192 which its binary representation is 00111001011110000010100101000000.
+Example 2:
+
+Input: n = 11111111111111111111111111111101
+Output:   3221225471 (10111111111111111111111111111111)
+Explanation: The input binary string 11111111111111111111111111111101 represents the unsigned integer 4294967293, so return 3221225471 which its binary representation is 10111111111111111111111111111111.
+
+
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t res = 0;
+        for(int i = 0; i < 32; i++){
+            res = res << 1;
+            res |= n & 1;
+            n = n >> 1;
+        }
+        return res;
+    }
+};
+
+
+//Explanation:
+
+//The function takes an unsigned integer n as input and returns the unsigned integer with its bits reversed. The solution works by using a loop to iterate over the bits of n from right to left. For each bit, we shift the bits of res one position to the left and then set the rightmost bit of res to the current bit of n using the bitwise OR operation.
+
+//Finally, we shift the bits of n one position to the right to move on to the next bit. After 32 iterations, we have reversed all the bits of n and stored the result in res, which we then return.
