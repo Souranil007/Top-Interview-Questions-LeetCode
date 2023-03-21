@@ -1,0 +1,52 @@
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+ 
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+Explanation: [9,4] is also accepted.
+
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> freq;
+        vector<int> res;
+        
+        // Populate the frequency map with the elements of nums1
+        for (int i = 0; i < nums1.size(); i++) {
+            freq[nums1[i]]++;
+        }
+        
+        // Check each element of nums2 against the frequency map
+        // If the element is present in the map, add it to the result vector
+        for (int i = 0; i < nums2.size(); i++) {
+            if (freq[nums2[i]] > 0) {
+                res.push_back(nums2[i]);
+                freq[nums2[i]]--;
+            }
+        }
+        
+        return res;
+    }
+};
+
+
+Explanation:
+The solution finds the intersection of two arrays by using an unordered map to keep track of the frequency of each element in the first array nums1.
+
+The function takes two vectors of integers as input and initializes an unordered map freq and a result vector res.
+
+The function then iterates through nums1 and populates the frequency map freq with the frequency of each element in the array.
+
+The function then iterates through nums2 and checks each element against the frequency map. If the element is present in the map, it is added to the result vector res, and its frequency in the map is decremented.
+
+Once all elements in nums2 have been checked, the function returns the result vector res, which contains the intersection of nums1 and nums2.
+
+Overall, the solution has a time complexity of O(m+n), where m and n are the lengths of nums1 and nums2, respectively, as it needs to iterate through each array once and perform constant-time operations for each element.
