@@ -1,0 +1,72 @@
+Given two strings s and t of lengths m and n respectively, return the minimum window 
+substring
+ of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+ 
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+Example 2:
+
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+Example 3:
+
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+
+
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> tFreq; // Frequency map for characters in string t
+        for (char c : t)
+            tFreq[c]++;
+
+        int left = 0; // Left pointer of the sliding window
+        int count = 0; // Count of characters from t found in the current window
+        int minLength = INT_MAX; // Minimum window length found so far
+        int minStart = 0; // Starting index of the minimum window
+        unordered_map<char, int> windowFreq; // Frequency map for characters in the current window
+
+        for (int right = 0; right < s.length(); right++) {
+            char currChar = s[right];
+
+            if (tFreq.find(currChar) != tFreq.end()) {
+                windowFreq[currChar]++;
+                if (windowFreq[currChar] <= tFreq[currChar])
+                    count++;
+            }
+
+            while (count == t.length()) {
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    minStart = left;
+                }
+
+                char leftChar = s[left];
+                if (tFreq.find(leftChar) != tFreq.end()) {
+                    windowFreq[leftChar]--;
+                    if (windowFreq[leftChar] < tFreq[leftChar])
+                        count--;
+                }
+
+                left++;
+            }
+        }
+
+        if (minLength == INT_MAX)
+            return "";
+        else
+            return s.substr(minStart, minLength);
+    }
+};
